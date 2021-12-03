@@ -16,6 +16,8 @@ const Header = (title, date, temp) => {
   headerDiv.appendChild(dateSpan);
   headerDiv.appendChild(titleH1);
   headerDiv.appendChild(tempSpan);
+
+  return headerDiv;
 }
 
  // TASK 1
@@ -32,6 +34,7 @@ const Header = (title, date, temp) => {
   //
 
 const headerAppender = (selector) => {
+
   // TASK 2
   // ---------------------
   // Implement this function taking a css selector as its only argument.
