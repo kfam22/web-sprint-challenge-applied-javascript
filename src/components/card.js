@@ -1,4 +1,30 @@
-const Card = (article) => {
+const Card = ({headline, authorPhoto, authorName}) => {
+  // create elements
+  const cardCont = document.createElement('div');
+  const cardHeadline = document.createElement('div');
+  const cardAuthorCont = document.createElement('div');
+  const cardImgCont = document.createElement('div');
+  const cardImg = document.createElement('img');
+  const cardAuthor = document.createElement('span');
+  // add classes
+  cardCont.classList.add('card');
+  cardHeadline.classList.add('headline');
+  cardAuthorCont.classList.add('author');
+  cardImgCont.classList.add('img-container');
+  // add content
+  cardHeadline.textContent = headline;
+  cardImg.src = authorPhoto;
+  cardAuthor.textContent = `By ${authorName}`;
+  // add hierarchy
+  cardCont.appendChild(cardHeadline);
+  cardCont.appendChild(cardAuthorCont);
+  cardAuthorCont.appendChild(cardImgCont);
+  cardImgCont.appendChild(cardImg);
+  cardAuthorCont.appendChild(cardAuthor);
+  // add interactivity
+  cardCont.addEventListener('click', () => {
+    console.log(headline);
+  })
   // TASK 5
   // ---------------------
   // Implement this function, which should return the markup you see below.
@@ -17,6 +43,7 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+  return cardCont;
 }
 
 const cardAppender = (selector) => {
