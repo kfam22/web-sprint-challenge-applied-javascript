@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const Card = ({headline, authorPhoto, authorName}) => {
   // create elements
   const cardCont = document.createElement('div');
@@ -25,7 +27,10 @@ const Card = ({headline, authorPhoto, authorName}) => {
   cardCont.addEventListener('click', () => {
     console.log(headline);
   })
-  // TASK 5
+  return cardCont;
+}
+
+// TASK 5
   // ---------------------
   // Implement this function, which should return the markup you see below.
   // It takes as its only argument an "article" object with `headline`, `authorPhoto` and `authorName` properties.
@@ -43,11 +48,42 @@ const Card = ({headline, authorPhoto, authorName}) => {
   //   </div>
   // </div>
   //
-  return cardCont;
-}
 
 const cardAppender = (selector) => {
-  // TASK 6
+  axios.get('http://localhost:5000/api/articles')
+  .then(res => {
+    const entryPoint = document.querySelector(selector);
+    // console.log('test articles: ', res.data.articles);
+    const jsArticlesArr = res.data.articles.javascript;
+    const bootstrapArticlesArr = res.data.articles.bootstrap;
+    const techArticlesArr = res.data.articles.technology;
+    const jqArticlesArr = res.data.articles.jquery;
+    const nodeArticlesArr = res.data.articles.node; 
+    // console.log('test javascript articles: ', jsArticlesArr);
+    // console.log('test bootstrap articles: ', bootstrapArticlesArr);
+    // console.log('test technology articles: ', techArticlesArr);
+    // console.log('test jquery articles: ', jqArticlesArr);
+    // console.log('test node articles: ', nodeArticlesArr);
+    // Array.prototype.push.apply(articlesArr, bootstrapArticlesArr, techArticlesArr, jqArticlesArr, nodeArticlesArr); *this only merges 2 arrays at a time
+    // console.log('test merged array', articlesArr);
+    const mergedArticlesArr = [
+      ...jsArticlesArr,
+      ...bootstrapArticlesArr,
+      ...techArticlesArr,
+      ...jqArticlesArr,
+      ...nodeArticlesArr];
+    // console.log('test merged:', mergedArticlesArr);
+    mergedArticlesArr.forEach(article => {
+      const newCard = Card(article);
+      entryPoint.appendChild(newCard);
+    })
+  })
+  .catch(error => {
+    console.error(error);
+  })
+}
+
+// TASK 6
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
   // It should obtain articles from this endpoint: `http://localhost:5000/api/articles` (test it in Postman/HTTPie!).
@@ -55,6 +91,5 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
-}
-
+  
 export { Card, cardAppender }
