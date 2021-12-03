@@ -1,5 +1,24 @@
 const Header = (title, date, temp) => {
-  // TASK 1
+  // create elements
+  const headerDiv = document.createElement('div');
+  const dateSpan = document.createElement('span');
+  const titleH1 = document.createElement('h1');
+  const tempSpan = document.createElement('span');
+  // add classes
+  headerDiv.classList.add('header');
+  dateSpan.classList.add('date');
+  tempSpan.classList.add('temp');
+  // add content
+  dateSpan.textContent = date;
+  titleH1.textContent = title;
+  tempSpan.textContent = temp;
+  // create hierarchy
+  headerDiv.appendChild(dateSpan);
+  headerDiv.appendChild(titleH1);
+  headerDiv.appendChild(tempSpan);
+}
+
+ // TASK 1
   // ---------------------
   // Implement this function taking `title`, `date` and `temp` as its 3 args and returning the markup below.
   // The tags used, the hierarchy of elements and their attributes must match the provided markup exactly!
@@ -11,7 +30,6 @@ const Header = (title, date, temp) => {
   //    <span class="temp">{ temp }</span>
   //  </div>
   //
-}
 
 const headerAppender = (selector) => {
   // TASK 2
