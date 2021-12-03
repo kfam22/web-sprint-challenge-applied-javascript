@@ -1,5 +1,18 @@
 const Tabs = (topics) => {
-  // TASK 3
+// create topics cont div and add class
+const topicsDiv = document.createElement('div');
+topicsDiv.classList.add('topics');
+// create, add content, and append tab for each topic in topics
+topics.forEach(topic => {
+  const newTab = document.createElement('div');
+  newTab.classList.add('tab');
+  newTab.textContent = topic;
+  topicsDiv.appendChild(newTab);
+})
+return topicsDiv;
+}
+
+ // TASK 3
   // ---------------------
   // Implement this function which takes an array of strings ("topics") as its only argument.
   // As an example, if the topics passed are ['javascript', 'bootstrap', 'technology']
@@ -13,7 +26,6 @@ const Tabs = (topics) => {
   //   <div class="tab">technology</div>
   // </div>
   //
-}
 
 const tabsAppender = (selector) => {
   // TASK 4
