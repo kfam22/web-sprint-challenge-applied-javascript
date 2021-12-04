@@ -52,32 +52,19 @@ const Card = ({headline, authorPhoto, authorName}) => {
 const cardAppender = (selector) => {
   axios.get('http://localhost:5000/api/articles')
   .then(res => {
+    // refactor: get array of each topic (res.data.articles.{topic}, then for each item in that arr make a new card and append it to the entrypoint)
     const entryPoint = document.querySelector(selector);
-    // console.log('test articles: ', res.data.articles);
-    const jsArticlesArr = res.data.articles.javascript;
-    const bootstrapArticlesArr = res.data.articles.bootstrap;
-    const techArticlesArr = res.data.articles.technology;
-    const jqArticlesArr = res.data.articles.jquery;
-    const nodeArticlesArr = res.data.articles.node; 
-    // console.log('test javascript articles: ', jsArticlesArr);
-    // console.log('test bootstrap articles: ', bootstrapArticlesArr);
-    // console.log('test technology articles: ', techArticlesArr);
-    // console.log('test jquery articles: ', jqArticlesArr);
-    // console.log('test node articles: ', nodeArticlesArr);
-    // Array.prototype.push.apply(articlesArr, bootstrapArticlesArr, techArticlesArr, jqArticlesArr, nodeArticlesArr); *this only merges 2 arrays at a time
-    // console.log('test merged array', articlesArr);
-    const mergedArticlesArr = [
-      ...jsArticlesArr,
-      ...bootstrapArticlesArr,
-      ...techArticlesArr,
-      ...jqArticlesArr,
-      ...nodeArticlesArr];
-    // console.log('test merged:', mergedArticlesArr);
-    mergedArticlesArr.forEach(article => {
-      const newCard = Card(article);
-      entryPoint.appendChild(newCard);
+    const articleConts = Object.keys(res.data.articles);
+    // ^^^each topic contains an arr of articles so they are article containers
+  for(let i = 0; i < articleConts.length; i++){
+    // ^^ for each topic(which contains an arr of articles)...
+    res.data.articles[articleConts[i]].forEach(article => {
+      // ^^^access the arr of articles (res.data.articles.{topic}), then for each article in the array accessed...
+      entryPoint.appendChild(Card(article));
+      // create a new card and append to entrypoint
     })
-  })
+  } 
+})
   .catch(error => {
     console.error(error);
   })
@@ -93,3 +80,32 @@ const cardAppender = (selector) => {
   //
   
 export { Card, cardAppender }
+
+// original logic to solve task 6... realized this wouldn't work if there were hundreds of topics and it needed to be refactored to work with a larger set of data
+    // const entryPoint = document.querySelector(selector);
+    // console.log('test articles: ', res.data.articles);
+    // const test = Object.keys(res.data.articles);
+    // console.log('test obj.keys:', test);
+    // const jsArticlesArr = res.data.articles.javascript;
+    // const bootstrapArticlesArr = res.data.articles.bootstrap;
+    // const techArticlesArr = res.data.articles.technology;
+    // const jqArticlesArr = res.data.articles.jquery;
+    // const nodeArticlesArr = res.data.articles.node; 
+    // console.log('test javascript articles: ', jsArticlesArr);
+    // console.log('test bootstrap articles: ', bootstrapArticlesArr);
+    // console.log('test technology articles: ', techArticlesArr);
+    // console.log('t`est jquery articles: ', jqArticlesArr);
+    // console.log('test node articles: ', nodeArticlesArr);
+    // Array.prototype.push.apply(articlesArr, bootstrapArticlesArr, techArticlesArr, jqArticlesArr, nodeArticlesArr); *this only merges 2 arrays at a time
+    // console.log('test merged array', articlesArr);
+    // const mergedArticlesArr = [
+    //   ...jsArticlesArr,
+    //   ...bootstrapArticlesArr,
+    //   ...techArticlesArr,
+    //   ...jqArticlesArr,
+    //   ...nodeArticlesArr];
+    // // console.log('test merged:', mergedArticlesArr);
+    // mergedArticlesArr.forEach(article => {
+    //   const newCard = Card(article);
+    //   entryPoint.appendChild(newCard);
+    // })
